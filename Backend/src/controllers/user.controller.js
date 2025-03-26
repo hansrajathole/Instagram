@@ -51,11 +51,13 @@ export const loginController = async function(req, res){
             email,
             password
         })
+
+        delete user._doc.password
         
         const token = await user.generateToken()
         
         console.log("user logged in successfully");
-        res.json({message: "User logged in successfully", token: token})
+        res.json({message: "User logged in successfully", token: token , user})
 
     } catch (error) {
         console.log(error)
@@ -65,7 +67,6 @@ export const loginController = async function(req, res){
 
 export const profileController = async (req, res) => {
 
-    console.log(req.user)
     try {         
         
         
@@ -88,7 +89,7 @@ export const logoutController = async (req, res) => {
     
     await redis.set(`blacklist: ${req.tokenData.token}`, true , "EX" ,Math.floor(timeRemainingForToken/1000))
 
-    res.send("logout successfully")
+    res.status(200).json({message: "User logged out successfully"})
 }
 
 export const followUnfollowController = async (req , res) => {

@@ -5,6 +5,8 @@ import loginimg from '../../assets/home-phones.png'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { setAuthUser } from '@/Redux/AuthSlice'
+import { useDispatch, useSelector } from 'react-redux'
 const Login = () => {
 
     const Navigate = useNavigate()
@@ -12,14 +14,17 @@ const Login = () => {
     const [password, setPassword] = React.useState('')
     const [error, setError] = useState("")
     const [login, setLogin] = useState(false)
+    const user = useSelector(state => state.auth)
+    const dispatch = useDispatch()
 
     const handleSubmit = (e) => {
         e.preventDefault()
         setLogin(true)
         axios.post('http://localhost:3000/users/login', { email, password })
         .then(response => {
-            console.log(response)
+            console.log(response.data.user)
             localStorage.setItem("token",response?.data?.token)
+            dispatch(setAuthUser(response.data.user))
             Navigate('/')
             setLogin(false)
             toast.success(response?.data?.message)

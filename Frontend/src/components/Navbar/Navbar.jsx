@@ -10,39 +10,33 @@ import { FaRegHeart } from "react-icons/fa";
 import { FiPlusSquare } from "react-icons/fi";
 import { CiLogout } from "react-icons/ci";
 import { useState, userEffect } from 'react';
+import { toast } from 'sonner';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { setAuthUser } from '@/Redux/AuthSlice';
 
 
 const Navbar = () => {
-  const Navigate = useNavigate()
-  
-    const [profile, setProfile] = useState("");
+    const Navigate = useNavigate()
     const token = localStorage.getItem("token");
-
-
-    useEffect(() => {
-        
-      const token = localStorage.getItem('token')
-      axios.get("http://localhost:3000/users/profile",{
-          headers :{
-              Authorization: `Bearer ${token}`
-          }
-      })
-      .then((res)=>{
-          // console.log(res.data.userData.profilePicture)
-          setProfile(res.data.userData.profilePicture)
-      })
-      .catch((err) => {
-          console.log(err)
-          // alert("Error getting profile")
-      })
-
-
-  }, [Navigate])
+    const user = useSelector(state => state.auth.user)
+    let dispatch = useDispatch()
+  
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    Navigate('/login')
+    axios.get("http://localhost:3000/users/logout",  {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      console.log(res);
+      localStorage.removeItem("token");
+      toast.success(res.data.message)
+      dispatch(setAuthUser(null))
+      Navigate("/login");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   return (
@@ -90,7 +84,7 @@ const Navbar = () => {
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
                 <Link to="/profile" className='flex items-center gap-3 text-xl'> 
-                <span><img src={profile} 
+                <span><img src={user?.profilePicture} 
                  className='h-7 w-7 rounded-full'
                  alt="profilePicture" /></span>
                  Profile</Link>  

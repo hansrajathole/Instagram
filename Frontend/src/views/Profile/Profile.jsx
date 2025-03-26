@@ -6,6 +6,10 @@ import axios from "axios";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { MoreHorizontal, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthUser } from "@/Redux/AuthSlice";
+
 
 const Profile = () => {
   const Navigate = useNavigate();
@@ -13,16 +17,11 @@ const Profile = () => {
   const [posts, setposts] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
   const [theme, setTheme] = useState(false);
+  const token = localStorage.getItem("token");
 
-  const toggleTheme = () => {
-    setTheme(!theme);
-    if (theme) {
-      localStorage.setItem("darkMode", "true");
-    } else {
-      localStorage.setItem("darkMode", "false");
-    }
-  };
-  // console.log(theme);
+  // const user = useSelector(state => state.auth.user)
+  let dispatch = useDispatch()
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -50,8 +49,20 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    Navigate("/login");
+    axios.get("http://localhost:3000/users/logout",  {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      toast.success(res.data.message)
+      localStorage.removeItem("token");
+      dispatch(setAuthUser(null))
+      Navigate("/login");
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error(err)
+    })
+  
   };
 
   return (
@@ -94,7 +105,6 @@ const Profile = () => {
                       </Button>
                       <hr />
                       <Button
-                        onCButtonck={() => toggleTheme()}
                          variant="ghost" className="cursor-pointer w-full font-bold p-0"
                       >
                         Dark theme

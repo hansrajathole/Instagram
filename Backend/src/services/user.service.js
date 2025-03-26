@@ -43,7 +43,7 @@ export const loginUser = async function({email, username, password}){
     const user = await userModel.findOne({
         $or: [{ username }, { email }]
     }).select("+password")
-
+    
     if(!user){
         throw new Error("username or password is incorrect")
     }

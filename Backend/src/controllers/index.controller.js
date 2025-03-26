@@ -68,10 +68,6 @@ export const feedController = async (req, res) => {
         },
       },
     ]).sort({ createdAt: -1 });
-
-    console.log(posts);
-    
-
     res.status(200).json({ message: "User feed data found", posts, user });
   } catch (error) {
     console.log(error);
