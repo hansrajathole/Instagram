@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
         type: String, 
         required: [true, 'Password is required'],
         minLength: [6, 'Password must be at least 6 characters long'],
-        select : false
+        select : false  
 
     },
     profilePicture: { 
@@ -56,9 +56,6 @@ const userSchema = new mongoose.Schema({
             default : [0]
         }
     ],
-    bio : {
-        type: String,
-    },
     bio : {
         type: String,
         default: '',

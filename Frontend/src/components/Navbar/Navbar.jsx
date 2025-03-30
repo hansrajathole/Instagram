@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setAuthUser } from '@/Redux/AuthSlice';
+import CreatePost from '@/views/Create/CreatePost';
 
 
 const Navbar = () => {
@@ -21,6 +22,7 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
     const user = useSelector(state => state.auth.user)
     let dispatch = useDispatch()
+    const [open, setOpen] = useState(false)
   
 
   const handleLogout = () => {
@@ -79,8 +81,8 @@ const Navbar = () => {
             <div className='flex items-center gap-3 text-xl mt-7'>
                 <Link to="/" className='flex items-center gap-3 text-xl'> <span><FaRegHeart /></span> Notifications</Link>
             </div>
-            <div className='flex items-center gap-3 text-xl mt-7'>
-                <Link to="/create" className='flex items-center gap-3 text-xl'> <span><FiPlusSquare /></span> Create</Link>
+            <div className='flex items-center gap-3 text-xl mt-7 cursor-pointer ' onClick={() => setOpen(true)}>
+                <div className='flex items-center gap-3 text-xl '> <span><FiPlusSquare /></span> Create</div>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
                 <Link to="/profile" className='flex items-center gap-3 text-xl'> 
@@ -98,6 +100,8 @@ const Navbar = () => {
 
              
             </div>
+
+            <CreatePost open={open} setOpen={setOpen} />
         </div>
 
         

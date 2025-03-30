@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
@@ -8,13 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 
-const CreatePost = () => {
+const CreatePost = ({open , setOpen}) => {
     const navigate = useNavigate();
     const [media, setMedia] = useState(null);
     const [caption, setCaption] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const imageRef = useRef()
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,7 +31,7 @@ const CreatePost = () => {
         })
             .then(response => {
                 toast.success(response.data.message);
-                navigate('/');
+                setOpen(false)
             })
             .catch(error => {
                 console.log(error);
@@ -67,19 +69,23 @@ const CreatePost = () => {
     };
 
     return (
-        <main className="flex items-center justify-center h-screen">
-         
-            <section className="p-6 rounded-lg shadow-md w-full max-w-md border border-gray-800 flex flex-col items-center">
-                <h1 className="text-xl font-bold mb-6 text-center">Create New Post</h1>
-                <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-                    <Label className="text-sm">Upload Image</Label>
+        
+        <Dialog open={open}  onOpenChange={setOpen}>
+            <DialogContent>
+                <DialogHeader className="text-center w-full flex justify-center items-center  ">Create New Post</DialogHeader>
+                <form  className="w-full flex flex-col gap-4">
+                    
                     <Input
                         accept='image/*'
                         name='media'
                         type="file"
                         onChange={(e) => setMedia(e.target.files[0])}
-                        // className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md text-sm focus:outline-none focus:border-gray-500"
+                        className="hidden"
+                        ref={imageRef}
                     />
+                    <button
+                    onClick={() => imageRef.current.click()}
+                    className='text-center flex justify-center cursor-pointer rounded-md p-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold '> Select image</button>
                     {/* <Input/> */}
                     <Button type="button" onClick={generateCaption} className="w-full py-2 bg-green-500 text-white font-semibold rounded-md shadow-md hover:bg-green-600 transition-all">
                         {loading ? 'Generating...' : 'Generate Caption'}
@@ -91,19 +97,17 @@ const CreatePost = () => {
                         value={caption}
                         onChange={(e) => setCaption(e.target.value)}
                         placeholder="Write a caption..."
-                        // className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md text-sm focus:outline-none focus:border-gray-500 resize-none h-20"
+                       
                     />
 
-                    <button className="w-full cursor-pointer active:scale-95 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition-all">
-                        Share
-                    </button>
-                    {/* <Button type="submit" className="w-full" loading={loading}>Share</Button> */}
+                    <button className="w-full cursor-pointer active:scale-95 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition-all" onClick={handleSubmit}>Share</button>
+            
 
                     {error && <p className="text-red-500 text-xs text-center">{error}</p>}
                 </form>
-            </section>
-            <ToastContainer />
-        </main>
+            </DialogContent>
+        </Dialog>
+     
     );
 };
 
