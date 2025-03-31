@@ -2,13 +2,13 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'sonner';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const CreatePost = ({open , setOpen}) => {
     const navigate = useNavigate();
@@ -16,12 +16,15 @@ const CreatePost = ({open , setOpen}) => {
     const [caption, setCaption] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [imagePrv, setimagePrv] = useState('')
     const imageRef = useRef()
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
-        const formData = new FormData(e.target);
+        const formData = new FormData();
+        formData.append("media", media);
+        formData.append("caption", caption);
 
         axios.post('http://localhost:3000/post/create', formData, {
             headers: {
@@ -32,11 +35,15 @@ const CreatePost = ({open , setOpen}) => {
             .then(response => {
                 toast.success(response.data.message);
                 setOpen(false)
+                setMedia("")
+                setimagePrv('')
+                setCaption("")
+                
             })
             .catch(error => {
                 console.log(error);
                 setError(error.response?.data?.message);
-            });
+            })
     };
 
     const generateCaption = async () => {
@@ -68,45 +75,70 @@ const CreatePost = ({open , setOpen}) => {
         }
     };
 
+    const fileChangeHandler = async (e) => {
+        e.preventDefault();
+        const file = e.target.files[0]
+        if(file){
+            setMedia(file)
+            const dataURL = URL.createObjectURL(file);
+            setimagePrv(dataURL)
+        }
+    }
+
     return (
         
-        <Dialog open={open}  onOpenChange={setOpen}>
-            <DialogContent>
-                <DialogHeader className="text-center w-full flex justify-center items-center  ">Create New Post</DialogHeader>
-                <form  className="w-full flex flex-col gap-4">
-                    
-                    <Input
-                        accept='image/*'
-                        name='media'
-                        type="file"
-                        onChange={(e) => setMedia(e.target.files[0])}
-                        className="hidden"
-                        ref={imageRef}
-                    />
-                    <button
+        <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle className="text-center">Create New Post</DialogTitle>
+            </DialogHeader>
+            <form className="w-full flex flex-col gap-4">
+                <Input
+                    accept='image/*'
+                    name='media'
+                    type="file"
+                    onChange={(e) => fileChangeHandler(e)}
+                    className="hidden"
+                    ref={imageRef}
+                />
+                <button
+                    type="button"
                     onClick={() => imageRef.current.click()}
-                    className='text-center flex justify-center cursor-pointer rounded-md p-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold '> Select image</button>
-                    {/* <Input/> */}
-                    <Button type="button" onClick={generateCaption} className="w-full py-2 bg-green-500 text-white font-semibold rounded-md shadow-md hover:bg-green-600 transition-all">
-                        {loading ? 'Generating...' : 'Generate Caption'}
-                    </Button>
-
-                    <Label className="">Caption</Label>
-                    <Textarea
-                        name='caption'
-                        value={caption}
-                        onChange={(e) => setCaption(e.target.value)}
-                        placeholder="Write a caption..."
-                       
-                    />
-
-                    <button className="w-full cursor-pointer active:scale-95 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition-all" onClick={handleSubmit}>Share</button>
-            
-
-                    {error && <p className="text-red-500 text-xs text-center">{error}</p>}
-                </form>
-            </DialogContent>
-        </Dialog>
+                    className='text-center flex justify-center cursor-pointer rounded-md p-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold'>
+                    Select image
+                </button>
+    
+                {imagePrv && (
+                    <div className='h-64 w-full flex items-center justify-center my-1'>
+                        <img src={imagePrv} alt="preview_img" className='object-cover w-full h-full rounded-2xl' />
+                    </div>
+                )}
+    
+                <Button type="button" onClick={generateCaption} className="w-full py-2 bg-green-500 text-white font-semibold rounded-md shadow-md hover:bg-green-600 transition-all">
+                    {loading ? 'Generating...' : 'Generate Caption'}
+                </Button>
+    
+                <Label>Caption</Label>
+                <Textarea
+                    name='caption'
+                    value={caption}
+                    onChange={(e) => setCaption(e.target.value)}
+                    placeholder="Write a caption..."
+                />
+    
+                {
+                    imagePrv && (
+                        <button className="w-full cursor-pointer active:scale-95 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition-all" onClick={handleSubmit}>
+                        Share
+                    </button>
+                    )
+                }
+    
+                {error && <p className="text-red-500 text-xs text-center">{error}</p>}
+            </form>
+        </DialogContent>
+    </Dialog>
+    
      
     );
 };

@@ -10,37 +10,44 @@ import { DialogTrigger,Dialog, DialogContent } from "@/components/ui/dialog";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CommentsDialog from "@/components/CommnetDialog/CommentsDialog";
+import { useDispatch, useSelector } from "react-redux";
+import { setPosts } from "@/Redux/PostSlice";
 
 const Feed = () => {
   const Navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
-  const [isfollow, setisfollow] = useState(false)
   const token = localStorage.getItem("token");
   const [text, setText] = useState('')
   const [commentOpen, setCommentOpen] = useState(false)
 
-  useEffect(() => {
-    if (!token) {
-      Navigate("/");
-    }
 
-    axios
-      .get("http://localhost:3000/feed", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setPosts(res?.data?.posts);
-        setUser(res.data.user);
-        console.log(res.data.posts);
+  const {posts} =  useSelector((store)=>store.post)
+  const dispatch = useDispatch()
+  console.log(posts);
+  
+
+  // useEffect(() => {
+  //   if (!token) {
+  //     Navigate("/");
+  //   }
+
+  //   axios
+  //     .get("http://localhost:3000/feed", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setPosts(res?.data?.posts);
+  //       setUser(res.data.user);
+  //       console.log(res.data.posts);
         
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [Navigate || isfollow]);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [Navigate]);
 
 
   const commentHandler = (e) => {
@@ -64,11 +71,11 @@ const Feed = () => {
         }
       )
       .then((res) => {
-        setPosts((prevPosts) =>
+        dispatch(setPosts((prevPosts) =>
           prevPosts.map((post) =>
             post._id === postId ? { ...post, likes: res.data.postData.likes } : post
           )
-        );
+        ));
       })
       .catch((err) => {
         console.log(err);
