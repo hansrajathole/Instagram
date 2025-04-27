@@ -21,6 +21,8 @@ const Navbar = () => {
     const Navigate = useNavigate()
     const token = localStorage.getItem("token");
     const user = useSelector(state => state.auth.user)
+    console.log(user);
+    
     let dispatch = useDispatch()
     const [open, setOpen] = useState(false)
   

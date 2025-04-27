@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "@/Redux/AuthSlice";
 
 
 const Register = () => {
@@ -10,7 +12,7 @@ const Register = () => {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [error, seterror] = useState("");
-
+  const dispatch = useDispatch()
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -22,6 +24,7 @@ const Register = () => {
       })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
+        dispatch(setAuthUser(response.data.user))
         toast.success(response.data.message);
         Navigate("/");
       })
