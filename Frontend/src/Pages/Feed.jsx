@@ -15,7 +15,6 @@ import { setPosts } from "@/Redux/PostSlice";
 
 const Feed = () => {
   const Navigate = useNavigate();
-  // const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
   const token = localStorage.getItem("token");
   const [text, setText] = useState('')
@@ -23,31 +22,33 @@ const Feed = () => {
 
 
   const {posts} =  useSelector((store)=>store.post)
+  console.log(posts);
+  
   const dispatch = useDispatch()
   console.log(posts);
   
 
-  // useEffect(() => {
-  //   if (!token) {
-  //     Navigate("/");
-  //   }
+  useEffect(() => {
+    if (!token) {
+      Navigate("/");
+    }
 
-  //   axios
-  //     .get("http://localhost:3000/feed", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setPosts(res?.data?.posts);
-  //       setUser(res.data.user);
-  //       console.log(res.data.posts);
+    axios
+      .get("http://localhost:3000/feed", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch(setPosts(res.data.posts));
+        setUser(res.data.user);
+        console.log(res.data.posts);
         
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, [Navigate]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [Navigate]);
 
 
   const commentHandler = (e) => {
@@ -71,11 +72,16 @@ const Feed = () => {
         }
       )
       .then((res) => {
-        dispatch(setPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post._id === postId ? { ...post, likes: res.data.postData.likes } : post
+        console.log(res);
+        dispatch(
+          setPosts(
+            posts.map((post) =>
+              post._id === postId
+                ? { ...post, likes: res.data.post.likes }
+                : post
+            )
           )
-        ));
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -130,7 +136,7 @@ const Feed = () => {
 
   return (
     // <div className=" flex justify-end relative font-light">
-      // <div></div>
+     
       <div className=" overflow-auto flex flex-col justify-center items-center gap-3 pt-8">
         <div className="w-[30rem]">
           {posts?.map((post, index) => (
@@ -147,7 +153,7 @@ const Feed = () => {
                     </div>
                     <div className="p-2">
                      
-                     {!post.author.followers.includes(user._id) ?
+                     {!post?.author?.followers?.includes(user._id) ?
                       <button 
                       onClick={()=>followUnfollowHandler(post?.author?._id)}
                       className="text-blue-500 rounded font-medium cursor-pointer"><span className="text-white">•</span> follow</button> : 
@@ -170,11 +176,11 @@ const Feed = () => {
                   </span>
                 </div>
                 <div className="border border-gray-700 mt-2">
-                  <img src={post.media.url} alt="post" className="w-full h-[35rem] object-contain" />
+                  <img src={post?.media?.url} alt="post" className="w-full h-[35rem] object-contain" />
                 </div>
                 <div className="mt-2 flex justify-between">
                   <div className="flex gap-3 text-2xl">
-                    <div onClick={() => likesHandler(post._id)} className="cursor-pointer">
+                    <div onClick={() => likesHandler(post?._id)} className="cursor-pointer">
                       {post?.likes?.includes(user._id) ? <FaHeart /> : <FaRegHeart />}
                     </div>
                     <FaRegComment
@@ -189,7 +195,7 @@ const Feed = () => {
                 </div>
                 <div className="text-sm">
                   <span className="font-medium mr-1.5">{post?.author?.username}</span>
-                  <p className="inline break-words">{post.caption}</p>
+                  <p className="inline break-words">{post?.caption}</p>
                 </div>
                 <div>
                   <span 
@@ -212,6 +218,14 @@ const Feed = () => {
               </div>
             </div>
           ))}
+           { posts?.length === 0 && (
+            <div className="flex flex-col justify-center items-center gap-2 mt-4">
+             
+              <h2 className="text-2xl font-bold">No Posts Yet</h2>
+              <p className="text-gray-500">Follow people to see their posts here.</p>
+            </div>  
+            )}
+           
         </div>
       </div>
     // </div>

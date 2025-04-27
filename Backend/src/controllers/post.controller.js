@@ -2,7 +2,6 @@ import Post from "../model/posts.model.js"
 import User from "../model/user.model.js"
 import Comment from "../model/comment.model.js"
 import { generateCaption } from "../services/ai.service.js"
-import e from "express"
 
 
 
@@ -55,8 +54,7 @@ export const likesController = async (req,res) => {
             post.likes.push(userId)
         }
         await post.save()
-        
-        res.status(200).json({message: "Like updated successfully", postData: post})
+        res.status(200).json({message: "Like updated successfully", post})
         
     } catch (error) {
         console.log(error)

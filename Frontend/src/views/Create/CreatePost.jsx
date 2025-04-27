@@ -9,7 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setPosts } from '@/Redux/PostSlice';
 const CreatePost = ({open , setOpen}) => {
     const navigate = useNavigate();
     const [media, setMedia] = useState(null);
@@ -18,7 +19,8 @@ const CreatePost = ({open , setOpen}) => {
     const [loading, setLoading] = useState(false);
     const [imagePrv, setimagePrv] = useState('')
     const imageRef = useRef()
-
+    const dispatch = useDispatch()
+    const { posts } = useSelector((store) => store.post);
     const handleSubmit = (e) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
@@ -34,6 +36,9 @@ const CreatePost = ({open , setOpen}) => {
         })
             .then(response => {
                 toast.success(response.data.message);
+                const newPost = response.data.postData;
+                
+                dispatch(setPosts([newPost, ...posts]));
                 setOpen(false)
                 setMedia("")
                 setimagePrv('')
