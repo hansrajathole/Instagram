@@ -18,13 +18,14 @@ const EditProfile = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const token = localStorage.getItem("token");
+    const baseUrl = import.meta.env.VITE_BASEURL
 
     if (!token) {
       return navigate("/login");
     }
 
     axios
-      .patch("http://localhost:3000/users/editprofile", formData, {
+      .patch(`${baseUrl}/users/editprofile`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

@@ -20,13 +20,9 @@ const Feed = () => {
   const [text, setText] = useState('')
   const [commentOpen, setCommentOpen] = useState(false)
 
-
   const {posts} =  useSelector((store)=>store.post)
-  console.log(posts);
-  
   const dispatch = useDispatch()
-  console.log(posts);
-  
+  const baseUrl = import.meta.env.VITE_BASEURL
 
   useEffect(() => {
     if (!token) {
@@ -34,7 +30,7 @@ const Feed = () => {
     }
 
     axios
-      .get("http://localhost:3000/feed", {
+      .get(`${baseUrl}/feed`, { 
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +59,7 @@ const Feed = () => {
   const likesHandler = (postId) => {
     axios
       .patch(
-        `http://localhost:3000/post/update/${postId}`,
+        `${baseUrl}/post/update/${postId}`,
         {},
         {
           headers: {
@@ -72,7 +68,6 @@ const Feed = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         dispatch(
           setPosts(
             posts.map((post) =>
@@ -89,7 +84,7 @@ const Feed = () => {
   };
 
   const followUnfollowHandler = (updateUserId)=>{
-    axios.patch(`http://localhost:3000/users/follow/${updateUserId}`, {},
+    axios.patch(`${baseUrl}/users/follow/${updateUserId}`, {},
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -134,9 +129,7 @@ const Feed = () => {
   };
   
 
-  return (
-    // <div className=" flex justify-end relative font-light">
-     
+  return (  
       <div className=" overflow-auto flex flex-col justify-center items-center gap-3 pt-8">
         <div className="w-[30rem]">
           {posts?.map((post, index) => (
@@ -228,7 +221,6 @@ const Feed = () => {
            
         </div>
       </div>
-    // </div>
   );
 };
 

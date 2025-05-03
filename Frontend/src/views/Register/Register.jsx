@@ -13,11 +13,13 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, seterror] = useState("");
   const dispatch = useDispatch()
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const baseUrl = import.meta.env.VITE_BASEURL
 
+  const handleSubmit = (e) => {
+
+    e.preventDefault();
     axios
-      .post("http://localhost:3000/users/register", {
+      .post(`${baseUrl}/users/register`, {
         username,
         email,
         password,

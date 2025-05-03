@@ -16,11 +16,13 @@ const Login = () => {
     const [login, setLogin] = useState(false)
     const user = useSelector(state => state.auth)
     const dispatch = useDispatch()
+    const baseUrl = import.meta.env.VITE_BASEURL
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
         setLogin(true)
-        axios.post('http://localhost:3000/users/login', { email, password })
+        axios.post(`${baseUrl}/users/login`, { email, password })
         .then(response => {
             console.log(response.data.user)
             localStorage.setItem("token",response?.data?.token)

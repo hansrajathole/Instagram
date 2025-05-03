@@ -21,14 +21,13 @@ const Navbar = () => {
     const Navigate = useNavigate()
     const token = localStorage.getItem("token");
     const user = useSelector(state => state.auth.user)
-    console.log(user);
-    
     let dispatch = useDispatch()
     const [open, setOpen] = useState(false)
+    const baseUrl = import.meta.env.VITE_BASEURL
   
 
   const handleLogout = () => {
-    axios.get("http://localhost:3000/users/logout",  {
+    axios.get(`${baseUrl}/users/logout`,  {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => {

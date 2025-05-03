@@ -15,10 +15,11 @@ const UserProfile = () => {
   const [posts, setposts] = useState([]);
   const [selfData, setSelfData] = useState(null)
   const token = localStorage.getItem("token");
+  const baseUrl = import.meta.env.VITE_BASEURL
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/user/${userId}`, {
+      .get(`${baseUrl}/user/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -34,7 +35,7 @@ const UserProfile = () => {
 
 
   const followUnfollowHandler = (updateUserId)=>{
-    axios.patch(`http://localhost:3000/users/follow/${updateUserId}`, {},
+    axios.patch(`${baseUrl}/users/follow/${updateUserId}`, {},
       {
         headers: {
           Authorization: `Bearer ${token}`,

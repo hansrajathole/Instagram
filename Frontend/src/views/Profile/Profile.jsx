@@ -18,7 +18,7 @@ const Profile = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [theme, setTheme] = useState(false);
   const token = localStorage.getItem("token");
-
+  const baseUrl = import.meta.env.VITE_BASEURL
   // const user = useSelector(state => state.auth.user)
   let dispatch = useDispatch()
 
@@ -26,7 +26,7 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3000/users/profile", {
+      .get(`${baseUrl}/users/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -49,7 +49,7 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    axios.get("http://localhost:3000/users/logout",  {
+    axios.get(`${baseUrl}/users/logout`,  {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => {
