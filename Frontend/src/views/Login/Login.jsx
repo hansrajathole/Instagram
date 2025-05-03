@@ -98,7 +98,7 @@ const Login = () => {
             </form>
             
             <div className=' mt-2 p-3 flex justify-center'>
-                <p>Don't have an account? <a className='font-bold text-blue-400' href="/register">Sing Up</a></p>
+                <p>Don't have an account? <button className='font-bold text-blue-400 cursor-pointer' onClick={()=>Navigate("/register")}>Sing Up</button></p>
             </div>
         </section>
     </main>
