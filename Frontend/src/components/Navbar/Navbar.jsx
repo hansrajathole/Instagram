@@ -31,7 +31,6 @@ const Navbar = () => {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => {
-      console.log(res);
       localStorage.removeItem("token");
       toast.success(res.data.message)
       dispatch(setAuthUser(null))
@@ -43,7 +42,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className=' p-6   min-h-screen w-[20%] fixed left-0 border-r border-gray-700 max-sm:w-full max-sm:h-20 max-sm:fixed max-sm:bottom-0 max-sm:h-20'> 
+    <div className=' p-6   min-h-screen w-[20%] fixed left-0 border-r border-gray-700 max-sm:w-full max-sm:h-20 max-sm:fixed max-sm:bottom-0'> 
        <div className="mb-7 pt-7 max-sm:hidden">
           <svg
             aria-label="Instagram"
