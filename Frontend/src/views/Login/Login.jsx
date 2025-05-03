@@ -22,7 +22,9 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setLogin(true)
-        axios.post(`${baseUrl}/users/login`, { email, password })
+        axios.post(`${baseUrl}/users/login`, { email, password },{
+          withCredentials: true,
+        })
         .then(response => {
             console.log(response.data.user)
             localStorage.setItem("token",response?.data?.token)

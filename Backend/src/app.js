@@ -16,12 +16,19 @@ app.use(cookieParser())
 app.use(morgan("dev"))
 
 const allowedOrigin = config.BASE_URL
+
 app.use(
   cors({
     origin: allowedOrigin,
     credentials: true
   })
 );
+
+app.options("*", cors({
+  origin: allowedOrigin,
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));
 

@@ -34,6 +34,7 @@ const Feed = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true, 
       })
       .then((res) => {
         dispatch(setPosts(res.data.posts));
@@ -65,6 +66,7 @@ const Feed = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true, 
         }
       )
       .then((res) => {
@@ -89,6 +91,7 @@ const Feed = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true, 
       })
       .then((res)=>{
         console.log(res);
