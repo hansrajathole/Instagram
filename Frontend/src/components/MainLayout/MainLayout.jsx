@@ -10,11 +10,11 @@ import Feed from '../../Pages/Feed'
 
 const MainLayout = () => {
   return (
-    <div className='flex'>
-      <div className='w-[20%]'>
+    <div className='flex max-sm:flex-col'>
+      <div className='w-[20%] min-w-[200px] max-sm:w-[100%]'>
       <Navbar/>
       </div>
-      <div className=' w-[80%] p-[20px]'>
+      <div className=' w-[80%] p-[20px] max-sm:w-full max-sm:p-5'>
         <Routes>
           <Route path="/" element={<Protected><Feed /></Protected>} />
           <Route path="/profile" element={<Protected><Profile /></Protected>} />

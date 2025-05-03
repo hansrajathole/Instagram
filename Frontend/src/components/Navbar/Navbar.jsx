@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import { MdHomeFilled } from "react-icons/md";
@@ -9,7 +9,7 @@ import { BsMessenger } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { FiPlusSquare } from "react-icons/fi";
 import { CiLogout } from "react-icons/ci";
-import { useState, userEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -43,8 +43,8 @@ const Navbar = () => {
   }
 
   return (
-    <div className=' p-6  h-screen min-h-screen w-[20%] fixed left-0 border-r border-gray-700'> 
-       <div className="mb-7 pt-7">
+    <div className=' p-6   min-h-screen w-[20%] fixed left-0 border-r border-gray-700 max-sm:w-full max-sm:h-20 max-sm:fixed max-sm:bottom-0 max-sm:h-20'> 
+       <div className="mb-7 pt-7 max-sm:hidden">
           <svg
             aria-label="Instagram"
             className="x1lliihq x1n2onr6 x5n08af"
@@ -63,36 +63,59 @@ const Navbar = () => {
             ></path>
           </svg>
         </div>
-        <div className='h-full'>
+        <div className='h-full max-sm:flex max-sm:justify-between max-sm:w-full'  >
             <div className='flex items-center gap-3 text-xl mt-7 '>
-                <Link to="/" className='flex items-center gap-3 text-xl'> <span className='text-2xl '><MdHomeFilled/></span> Home</Link>
+                <Link to="/" className='flex items-center gap-3 text-xl'> 
+                    <span className='text-2xl '><MdHomeFilled/></span>
+                    <span className='max-sm:hidden'>Home</span>
+                 </Link>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
-                <Link to="/" className='flex items-center gap-3 text-xl'> <span className='text-2xl' ><IoSearchOutline/></span> Search</Link>
+                <Link to="/" className='flex items-center gap-3 text-xl'> 
+                <span className='text-2xl' ><IoSearchOutline/></span>
+                <span className='max-sm:hidden'>Search</span></Link>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
-                <Link to="/" className='flex items-center gap-3 text-xl'> <span className='text-2xl' ><MdExplore /></span> Explore</Link>
+                <Link to="/" className='flex items-center gap-3 text-xl'>
+                 <span className='text-2xl' ><MdExplore /></span>
+                  <span className='max-sm:hidden'>Explore</span>
+                </Link>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
-                <Link to="/" className='flex items-center gap-3 text-xl'> <span className='text-2xl' ><RiVideoFill /></span> Reels</Link>
+                <Link to="/" className='flex items-center gap-3 text-xl'>
+                 <span className='text-2xl' ><RiVideoFill /></span> <span className='max-sm:hidden'>Reels</span>
+                </Link>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
-                <Link to="/" className='flex items-center gap-3 text-xl'> <span><BsMessenger /></span> Message</Link>
+                <Link to="/" className='flex items-center gap-3 text-xl'>
+                 <span><BsMessenger /></span>
+                 <span className='max-sm:hidden'>Message</span>
+                 </Link>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
-                <Link to="/" className='flex items-center gap-3 text-xl'> <span><FaRegHeart /></span> Notifications</Link>
+                <Link to="/" className='flex items-center gap-3 text-xl'>
+                 <span><FaRegHeart /></span>
+                 <span className='max-sm:hidden'>Notifications</span>
+                 </Link>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7 cursor-pointer ' onClick={() => setOpen(true)}>
-                <div className='flex items-center gap-3 text-xl '> <span><FiPlusSquare /></span> Create</div>
+                <div className='flex items-center gap-3 text-xl '>
+                   <span><FiPlusSquare /></span> 
+                    <span className='max-sm:hidden'>Create</span>   
+                </div>
             </div>
             <div className='flex items-center gap-3 text-xl mt-7'>
                 <Link to="/profile" className='flex items-center gap-3 text-xl'> 
-                <span><img src={user?.profilePicture} 
-                 className='h-7 w-7 rounded-full'
-                 alt="profilePicture" /></span>
-                 Profile</Link>  
+                <span>
+                  <img src={user?.profilePicture} 
+                 className='h-7 w-7 rounded-full '
+                 alt="profilePicture" />
+                </span>
+                <span className='max-sm:hidden'>Profile</span> 
+                 
+                </Link>  
             </div>
-            <div className=' absolute bottom-20 w-full'>
+            <div className=' absolute bottom-20 w-full max-sm:hidden'>
                 <button 
                 onClick={() => {handleLogout()}}
                 className=' px-2 cursor-pointer rounded-lg mt-7 text-lg flex items-center gap-1  '><span>

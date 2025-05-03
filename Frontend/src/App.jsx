@@ -9,7 +9,7 @@ const App = () => {
   userGetAllPost()
   
   return (
-      <div className="bg-white text-black h-screen w-screen overflow-x-hidden">
+      <div className="bg-black text-white h-screen w-screen overflow-x-hidden">
         <AppRouter />
         <Toaster />
       </div>  
