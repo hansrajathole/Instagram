@@ -65,6 +65,17 @@ const Profile = () => {
   
   };
 
+  const handleThemeChange = () => {
+    setTheme(!theme);
+    if (theme) {
+      document.documentElement.classList.remove("dark");
+     
+    } else {
+      document.documentElement.classList.add("dark");
+    
+    }
+  }
+
   return (
     <div className="w-full flex justify-end">
       {/* Profile Section */}
@@ -106,6 +117,7 @@ const Profile = () => {
                       <hr />
                       <Button
                          variant="ghost" className="cursor-pointer w-full font-bold p-0"
+                        onClick={handleThemeChange}
                       >
                         Dark theme
                       </Button>
