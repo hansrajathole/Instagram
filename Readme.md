@@ -68,7 +68,7 @@ BASE_URL=http://localhost:5173
 
 
 # Clone the repo
-git clone https://github.com/yourusername/instagram-clone.git
+git clone https://github.com/hansrajathole/Instagram.git
 cd instagram-clone
 
 # Install server dependencies
