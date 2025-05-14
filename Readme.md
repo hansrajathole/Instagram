@@ -49,7 +49,7 @@ An Instagram-inspired full-stack web application built using **MERN Stack (Mongo
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in `server/` directory:
+Create a `.env` file in `Backend/` directory:
 
 ```env
 PORT=3000,
