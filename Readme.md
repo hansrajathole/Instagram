@@ -3,7 +3,7 @@
 An Instagram-inspired full-stack web application built using **MERN Stack (MongoDB, Express, React, Node.js)** and integrated with **Gemini API** for smart features like image captions, hashtag generation, or user insights.
 
 ## 🌐 Live Demo
-> [Deployed Link Here](#) *(Add your deployed URL)*
+> [Deployed Link Here](#) *(https://instagram-frontend-rnox.onrender.com/)*
 
 ---
 
@@ -11,8 +11,9 @@ An Instagram-inspired full-stack web application built using **MERN Stack (Mongo
 
 ### 💻 Frontend
 - React.js
-- Tailwind CSS / SCSS (if used)
-- Context API / Redux (if used)
+- Shadcn
+- Tailwind CSS 
+- Context API / Redux 
 - Axios
 
 ### 🧠 Backend
@@ -32,9 +33,8 @@ An Instagram-inspired full-stack web application built using **MERN Stack (Mongo
 - Create, Edit, and Delete Posts
 - Like/Unlike Posts
 - Follow/Unfollow Users
-- Add & View Stories
 - Real-Time Comments and Feed
-- Smart Caption/Hashtag Suggestions using Gemini API
+- Smart Caption Suggestions using Gemini API
 
 ### 🤖 AI Features (Gemini API)
 - Auto-generated image captions
