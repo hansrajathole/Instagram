@@ -66,3 +66,26 @@ IMAGEKIT_URL=
 BASE_URL=http://localhost:5173
 
 
+
+# Clone the repo
+git clone https://github.com/yourusername/instagram-clone.git
+cd instagram-clone
+
+# Install server dependencies
+cd Backend
+npm install
+
+# Install client dependencies
+cd ../Frontend
+npm install
+
+# Start the backend
+cd Backend
+npx nodemon
+
+# Start the frontend
+cd ../Frontend
+npm run dev
+
+
+
