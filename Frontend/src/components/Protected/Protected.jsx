@@ -28,11 +28,6 @@ const Protected = ({ children }) => {
     navigate("/login");
   };
 
-
-  // const handleClose = () => {
-  //   setIsLoginModalOpen(false);
-  //   navigate("/");
-  // }
   if (isAuthenticated) {
     return children;
   }
