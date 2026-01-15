@@ -55,7 +55,7 @@ Create a `.env` file in `Backend/` directory:
 PORT=3000,
 MONGO_URI=
 JWT_SECRET=
-JWT_EXPAIRE_IN=7d
+JWT_EXPAIRE_IN=
 REDIS_HOST=
 REDIS_PORT=
 REDIS_PASSWORD=
